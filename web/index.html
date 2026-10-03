@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101b30" />
+    <title>ModelLedger | Provenance verification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="ModelLedger home">
+          <span class="brand-mark"><span></span><span></span><span></span></span>
+          <span>Model<span class="brand-muted">Ledger</span></span>
+        </a>
+        <div class="sidebar-label">Workspace</div>
+        <nav>
+          <a class="nav-item active" href="#verify"><span class="nav-icon">⌁</span> Verify artifact</a>
+          <a class="nav-item" href="#history" id="historyNav"><span class="nav-icon">◷</span> Verification history <span class="history-badge" id="historyBadge" hidden>0</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="network-card">
+            <div class="network-dot"></div>
+            <div><strong>Ledger network</strong><small>Local verifier ready</small></div>
+            <span class="status-pill">LIVE</span>
+          </div>
+          <p class="privacy-note"><span>◈</span> Files are hashed in your browser before verification. Your original file is not uploaded by this demo.</p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Verify artifact</strong></div>
+          <div class="topbar-actions"><span class="secure-label"><span class="lock">⌑</span> Privacy-preserving</span><button class="help-button" aria-label="Help">?</button></div>
+        </header>
+
+        <section class="page-heading" id="verify">
+          <div>
+            <div class="eyebrow">PROVENANCE CHECK</div>
+            <h1>Verify an artifact</h1>
+            <p>Trace origin, transformations, and trust signals across your media.</p>
+          </div>
+          <div class="stepper" aria-label="Verification progress">
+            <div class="step active"><span>1</span><label>Upload</label></div><i></i>
+            <div class="step"><span>2</span><label>Verify</label></div><i></i>
+            <div class="step"><span>3</span><label>Report</label></div>
+          </div>
+        </section>
+
+        <section class="workspace-grid">
+          <div class="upload-panel">
+            <div class="panel-header"><div><h2>Upload files</h2><p>Images, documents, and video are supported.</p></div><span class="file-count" id="fileCount">0 files</span></div>
+            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload files">
+              <input id="fileInput" type="file" accept="image/*,application/pdf,video/*" multiple hidden />
+              <div class="upload-orb"><span class="upload-arrow">↑</span></div>
+              <h3>Drop files here</h3>
+              <p>or <button class="browse-button" id="browseButton" type="button">browse from your computer</button></p>
+              <div class="supported"><span>JPG</span><span>PNG</span><span>WEBP</span><span>PDF</span><span>MP4</span><span>MOV</span></div>
+              <small>Multiple files allowed · Max 250 MB per file</small>
+            </div>
+            <div class="queue-header"><span>Selected files</span><span id="queueHint">Waiting for upload</span></div>
+            <div class="file-list" id="fileList"><div class="empty-queue"><span>＋</span><p>Your selected files will appear here</p></div></div>
+            <div class="upload-footer"><span class="hash-note"><span>◈</span> SHA-256 fingerprinting happens locally</span><button id="verifyButton" class="primary-button" type="button" disabled>Verify selected files <span>→</span></button></div>
+          </div>
+
+          <aside class="info-panel">
+            <div class="info-icon">i</div>
+            <h2>What we can verify</h2>
+            <div class="info-row"><span class="info-check">✓</span><div><strong>Origin claims</strong><p>Whether a matching event exists on the provenance ledger.</p></div></div>
+            <div class="info-row"><span class="info-check">✓</span><div><strong>Transformation history</strong><p>Which registered systems signed each recorded step.</p></div></div>
+            <div class="info-row"><span class="info-check">✓</span><div><strong>Tamper evidence</strong><p>Whether the file matches its claimed SHA-256 fingerprint.</p></div></div>
+            <div class="info-divider"></div>
+            <p class="disclaimer"><strong>Important:</strong> a file alone cannot prove which AI created it. AI attribution is reported only when supported by signed ledger evidence or an integrated detector.</p>
+          </aside>
+        </section>
+
+        <section class="models-section">
+          <div class="models-heading"><div><div class="eyebrow">AI ORIGIN SIGNALS</div><h2>Compare multiple detectors</h2><p>Run independent models and show agreement instead of trusting one score.</p></div><span class="model-count" id="modelCount">3 selected</span></div>
+          <div class="model-grid" id="modelGrid">
+            <label class="model-card selected"><input type="checkbox" value="forensic" checked /><span class="model-logo forensic">F</span><span class="model-copy"><strong>Local forensic checks</strong><small>Metadata, file structure, and fingerprint signals</small></span><span class="model-state">LOCAL</span></label>
+            <label class="model-card selected"><input type="checkbox" value="content" checked /><span class="model-logo content">C</span><span class="model-copy"><strong>Content detector adapter</strong><small>Connect your configured image AI detector</small></span><span class="model-state">API</span></label>
+            <label class="model-card selected"><input type="checkbox" value="provenance" checked /><span class="model-logo provenance">P</span><span class="model-copy"><strong>Provenance ledger</strong><small>Signed origin and transformation events</small></span><span class="model-state">LEDGER</span></label>
+          </div>
+          <p class="model-disclaimer">Detector scores are probabilistic signals. A changed hash means the exact bytes changed; it does not, by itself, prove AI generation or editing.</p>
+        </section>
+
+        <section class="report-section" id="history" hidden>
+          <div class="report-heading"><div><div class="eyebrow">VERIFICATION OUTPUT</div><h2>Readable report</h2></div><button id="copyReport" class="secondary-button" type="button">Copy report</button></div>
+          <div class="report-card"><div class="report-status-row"><span id="reportStatus" class="report-status neutral">Awaiting verification</span><span id="reportTime" class="mono"></span></div><pre id="reportText">Upload one or more files to generate a provenance report.</pre></div>
+          <div class="history-heading"><div><div class="eyebrow">SAVED REPORTS</div><h2>Verification history</h2></div><button id="clearHistory" class="secondary-button" type="button">Clear history</button></div>
+          <div class="history-list" id="historyList"><div class="history-empty">Completed reports will be saved here automatically in this browser.</div></div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
