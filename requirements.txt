@@ -1,3 +1,0 @@
-web3[tester]==8.0.0
-py-solc-x==2.0.5
-streamlit>=1.40,<2
